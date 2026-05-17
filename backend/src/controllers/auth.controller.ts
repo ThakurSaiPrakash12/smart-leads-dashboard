@@ -18,7 +18,7 @@ export const register = asyncHandler(async (req: RegisterRequest, res: Response)
 
 export const login = asyncHandler(async (req: LoginRequest, res: Response): Promise<void> => {
   const { user, token } = await AuthService.login(req.body);
-  const isSecureCookie = ENV.NODE_ENV === 'production' && ENV.CLIENT_URL.startsWith('https://');
+  const isSecureCookie = ENV.CLIENT_URL.startsWith('https://');
   res.cookie(JWT_COOKIE_NAME, token, {
     httpOnly: true,
     secure: isSecureCookie,
@@ -30,7 +30,7 @@ export const login = asyncHandler(async (req: LoginRequest, res: Response): Prom
 });
 
 export const logout = asyncHandler(async (_req: Request, res: Response): Promise<void> => {
-  const isSecureCookie = ENV.NODE_ENV === 'production' && ENV.CLIENT_URL.startsWith('https://');
+  const isSecureCookie = ENV.CLIENT_URL.startsWith('https://');
   res.clearCookie(JWT_COOKIE_NAME, {
     httpOnly: true,
     secure: isSecureCookie,
