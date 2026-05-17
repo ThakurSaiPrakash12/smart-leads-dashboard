@@ -40,6 +40,7 @@ export const logout = asyncHandler(async (_req: Request, res: Response): Promise
 });
 
 export const getMe = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-  res.status(HTTP_STATUS.OK).json(ApiResponse.ok(req.user, 'User retrieved successfully'));
+  const user = await AuthService.getMe(req.user!.id);
+  res.status(HTTP_STATUS.OK).json(ApiResponse.ok(user, 'User retrieved successfully'));
 });
 

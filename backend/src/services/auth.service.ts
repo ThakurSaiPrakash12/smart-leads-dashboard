@@ -43,4 +43,10 @@ export class AuthService {
     const token = generateToken(user._id, user.role);
     return { user: toSafeUser(user), token };
   }
+
+  static async getMe(userId: string): Promise<SafeUser> {
+    const user = await User.findById(userId);
+    if (!user) throw ApiError.notFound('User not found');
+    return toSafeUser(user);
+  }
 }
