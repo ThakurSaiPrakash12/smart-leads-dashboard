@@ -415,8 +415,4 @@ Seed credentials (Docker default):
 - Caching for common filters
 - Websocket updates for live lead changes
 
-## Author
 
-- Name: Your Name
-- GitHub: https://github.com/your-handle
-- LinkedIn: https://www.linkedin.com/in/your-handle
