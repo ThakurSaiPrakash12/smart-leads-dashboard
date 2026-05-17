@@ -22,7 +22,7 @@ export const login = asyncHandler(async (req: LoginRequest, res: Response): Prom
   res.cookie(JWT_COOKIE_NAME, token, {
     httpOnly: true,
     secure: isSecureCookie,
-    sameSite: 'lax',
+    sameSite: isSecureCookie ? 'none' : 'lax',
     maxAge: COOKIE_MAX_AGE,
   });
   // Token stays in the cookie — not returned in body to avoid XSS exposure
@@ -30,7 +30,12 @@ export const login = asyncHandler(async (req: LoginRequest, res: Response): Prom
 });
 
 export const logout = asyncHandler(async (_req: Request, res: Response): Promise<void> => {
-  res.clearCookie(JWT_COOKIE_NAME);
+  const isSecureCookie = ENV.NODE_ENV === 'production' && ENV.CLIENT_URL.startsWith('https://');
+  res.clearCookie(JWT_COOKIE_NAME, {
+    httpOnly: true,
+    secure: isSecureCookie,
+    sameSite: isSecureCookie ? 'none' : 'lax',
+  });
   res.status(HTTP_STATUS.OK).json(ApiResponse.ok(null, 'Logged out successfully'));
 });
 
